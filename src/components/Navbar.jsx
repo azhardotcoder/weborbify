@@ -1,45 +1,60 @@
 "use client";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import Button from "./Button";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navItems = ["Home", "About", "Services", "Blog"];
 
   return (
-    <nav className="bg-black text-white fixed w-full shadow-md z-50 h-20 flex justify-center items-center ">
-      <div className=" mx-auto px-6 py-4 flex justify-around items-center gap-4">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-red-500">
-          WebOrbify
-        </Link>
+    <nav className="bg-[#09101C] font-semibold text-white fixed w-full shadow-md z-50 h-16 flex items-center">
+      <div className="w-full px-7 flex justify-between items-center">
+        <div className="flex gap-8">
+          {/* Brand Logo */}
+          <NavLink
+            to="/"
+            className="text-xl font-bold text-blue-600 hover:text-blue-500 transition-colors"
+          >
+            WebOrbify
+          </NavLink>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 text-lg">
-          {["Home", "About", "Services", "Blog"].map((item) => (
-            <li key={item}>
-              <Link
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6 flex-1 justify-center text-sm">
+            {navItems.map((item) => (
+              <NavLink
+                key={item}
                 to={`/${item.toLowerCase()}`}
-                className="hover:text-red-500 transition duration-300"
+                className={({ isActive }) =>
+                  `hover:text-[#84888E] transition-colors duration-300 ${
+                    isActive ? "text-blue-500 font-semibold" : "text-white"
+                  }`
+                }
               >
                 {item}
-              </Link>
-            </li>
-          ))}
-        </ul>
+              </NavLink>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Download Buttons */}
+        <div className="hidden md:flex gap-4">
+          <Button title="Download for mobile" />
+          <Button title="Download for linux" />
+        </div>
 
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle navigation menu"
         >
           {isOpen ? (
-            // Close (X) Icon
             <svg
               className="w-8 h-8"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -49,13 +64,11 @@ function Navbar() {
               />
             </svg>
           ) : (
-            // Hamburger Icon
             <svg
               className="w-8 h-8"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -68,22 +81,29 @@ function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-black text-white">
-          <ul className="flex flex-col items-center py-4 space-y-4">
-            {["Home", "About", "Services", "Blog"].map((item) => (
-              <li key={item}>
-                <Link
-                  to={`/${item.toLowerCase()}`}
-                  className="hover:text-red-500 transition duration-300"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item}
-                </Link>
-              </li>
+        <div className="md:hidden absolute flex flex-col justify-between gap-20 top-16 w-full bg-[#09101C] py-4 px-6 space-y-6">
+          <div>
+            {navItems.map((item) => (
+              <NavLink
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className={({ isActive }) =>
+                  `block text-white text-lg pl-1 pb-2 hover:text-blue-500 transition-colors ${
+                    isActive ? "text-blue-500 font-semibold" : ""
+                  }`
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                {"> " + item}
+              </NavLink>
             ))}
-          </ul>
+          </div>
+          <div className="flex flex-col py-5 gap-2">
+            <Button title="Download for mobile" />
+            <Button title="Download for linux" />
+          </div>
         </div>
       )}
     </nav>

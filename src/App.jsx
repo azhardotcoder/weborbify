@@ -7,7 +7,6 @@ import Blog from "./Pages/Blog";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -18,7 +17,7 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/blog" element={<Blog />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
